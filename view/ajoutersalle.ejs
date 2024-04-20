@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Room </title>
+    <!-- Liens vers les fichiers CSS de Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Styles CSS personnalisés -->
+    <style>
+        body {
+            background-image: url('/pngtree-an-empty-conference-room-with-a-large-table-and-dark-curtains-picture-image_2457521.jpg');
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            margin-top: 40px;
+            background-color:  rgba(255,255,255,0.5);
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(48, 45, 45, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #842204;
+            animation: colorChange 5s infinite alternate;
+        }
+        
+        .navbar {
+            background-color:  rgba(255,255,255,0.5);
+            height: 40px; /* Réduire la hauteur de la navbar */
+        }
+        .navbar-brand {
+            color: #842204 !important;
+            font-weight: bold;
+        }
+        .navbar-nav .nav-link {
+            color: #842204 !important;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            color: #842204; /* Couleur blanche pour les labels */
+        }
+        .btn-primary {
+            width: 100%;
+            background-color: #842204;
+            border-color: #e43a06;
+        }
+        .btn-primary:hover {
+            background-color: #e93802;
+            border-color: #842204;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barre de navigation -->
+    <nav class="navbar navbar-expand-lg ">
+        <a class="navbar-brand" href="#">Meetig Room </a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/" >Back</a>
+            </li>
+        </ul>    
+    </nav>
+
+    <!-- Contenu principal -->
+    <div class="container mt-4">
+        <h1>Add Room </h1>
+        <!-- Formulaire d'inscription -->
+        <form action="/salle/addsalle" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="roomName" style="color: #842204;">Room name :</label>
+                <input type="text" class="form-control" id="roomName" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="roomLocation" style="color: #842204;">City  :</label>
+                <input type="text" class="form-control" id="roomLocation" name="location" required>
+            </div>
+            <div class="form-group">
+                <label for="roomCapacity" style="color: #842204;">Number of available seats :</label>
+                <input type="number" class="form-control" id="roomCapacity" name="capacity" required>
+            </div>
+            <div class="form-group">
+                <label for="priceRoom" style="color: #842204;">Price / hour(s) :</label>
+                <input type="number" class="form-control" id="roomCapacity" name="prix" required>
+            </div>
+            <div class="form-group">
+                <label for="roomImage" style="color: #842204;">Picture of room :</label>
+                <input type="file" class="form-control-file" id="roomImage" name="image" accept="image/*" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Add room</button>
+        </form>
+    </div>
+
+    <!-- Liens vers les fichiers JavaScript de Bootstrap (optionnel) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
