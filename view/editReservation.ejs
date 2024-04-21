@@ -9,7 +9,7 @@
     <!-- Styles CSS personnalisés -->
     <style>
         body {
-            background-image: url('/IMG_4185-1024x683.jpg');
+            background-image: url('/pngtree-an-empty-conference-room-with-a-large-table-and-dark-curtains-picture-image_2457521.jpg');
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
         }
@@ -55,12 +55,12 @@
 <body>
     <!-- Barre de navigation -->
     <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#">Reservation Salle de Reunion</a>
+        <a class="navbar-brand" href="#">Reservation of meeting room</a>
         
     </nav>
 
     <div class="container">
-        <h1>Modifier Réservation</h1>
+        <h1>Modify Reservation</h1>
         <% if (typeof errorMessage !== 'undefined') { %>
             <div class="alert alert-danger" role="alert">
                 <%= errorMessage %>
@@ -74,47 +74,19 @@
         <form action="/reservations/<%= reservation._id %>/edit" method="POST">
             <!-- Champ pour modifier les détails de la réservation -->
             <div class="form-group">
-                <label for="datedebut">Date de début:</label>
-                <input type="datetime-local" class="form-control" id="dateDebut" name="dateDebut" <% if (reservation && reservation.datedébut) { %> value="<%= reservation.datedébut.toISOString().slice(0, 16) %>" <% } %> required>
+                <label for="startdate">Start date:</label>
+                <input type="datetime-local" class="form-control" id="startdate" name="startsate" <% if (reservation && reservation.startdate) { %> value="<%= reservation.startdate.toISOString().slice(0, 16) %>" <% } %> required>
             </div>
             <div class="form-group">
-                <label for="datefin">Date de fin:</label>
-                <input type="datetime-local" class="form-control" id="dateFin" name="dateFin" <% if (reservation && reservation.datefin) { %> value="<%= reservation.datefin.toISOString().slice(0, 16) %>" <% } %> required>
+                <label for="datefin">End date :</label>
+                <input type="datetime-local" class="form-control" id="enddate" name="enddate" <% if (reservation && reservation.enddate) { %> value="<%= reservation.enddate.toISOString().slice(0, 16) %>" <% } %> required>
             </div>
+            <input type="hidden" class="form-control" id="salleId" name="salleId" value = '<%= reservation.room %>'  required>
             <!-- Ajoutez d'autres champs pour les autres détails de la réservation à modifier -->
-            <button type="submit" class="btn btn-primary">Modifier</button>
+            <button type="submit" class="btn btn-primary">Modify</button>
         </form>
     </div>
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>Contact</h5>
-                    <ul class="list-unstyled text-small">
-                        <li><a class="text-muted" href="#">Adresse : 123 Rue de la Réunion</a></li>
-                        <li><a class="text-muted" href="#">Téléphone : +1234567890</a></li>
-                        <li><a class="text-muted" href="#">Email : contact@reservation-salle.com</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>Liens rapides</h5>
-                    <ul class="list-unstyled text-small">
-                        <li><a class="text-muted" href="#">Accueil</a></li>
-                        <li><a class="text-muted" href="#">Services</a></li>
-                        <li><a class="text-muted" href="#">À propos</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>Restez connecté</h5>
-                    <ul class="list-unstyled text-small">
-                        <li><a class="text-muted" href="#">Facebook</a></li>
-                        <li><a class="text-muted" href="#">Twitter</a></li>
-                        <li><a class="text-muted" href="#">LinkedIn</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+    
 
     <!-- Liens vers les fichiers JavaScript de Bootstrap (optionnel) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

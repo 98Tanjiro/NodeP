@@ -23,10 +23,10 @@ const roomSchema = new mongoose.Schema({
     },
     state: {
         type: Boolean,
-        default: true // Par défaut, la salle est disponible
+        default: true 
     }
 });
 
-const Room = mongoose.model('Salle', roomSchema);
+const Room = mongoose.model('Room', roomSchema);
 
 module.exports = Room;

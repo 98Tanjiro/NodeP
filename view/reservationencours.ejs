@@ -66,7 +66,7 @@
 <body>
     <!-- Barre de navigation -->
     <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#">Reservation Salle de Reunion</a>
+        <a class="navbar-brand" href="#">Reservation of meeting room</a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
@@ -77,18 +77,18 @@
     </nav>
 
     <div class="container">
-        <h1>Liste des réservations en cours</h1>
+        <h1>list of ongoing reservations</h1>
         <% if (reservationsEnCours.length === 0) { %>
-            <p>Aucune réservation en cours.</p>
+            <p>no ongoing reservation.</p>
         <% } else { %>
             <table class="table">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Utilisateur</th>
-                        <th>Salle</th>
-                        <th>Date de début</th>
-                        <th>Date de fin</th>
+                        <th>User</th>
+                        <th>Room</th>
+                        <th>start date</th>
+                        <th>end date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,13 +96,13 @@
                         <tr>
                             <td><%= reservation._id %></td>
                             <td><%= reservation.user.username %></td> 
-                            <% if (reservation.salle) { %> 
-                                <td><%= reservation.salle.name %></td> 
+                            <% if (reservation.room) { %> 
+                                <td><%= reservation.room.name %></td> 
                             <% } else { %>
-                                <td>Aucune salle associée</td> <!-- Affiche un message si aucune salle n'est associée -->
+                                <td>no rooms associated</td> <!-- Affiche un message si aucune salle n'est associée -->
                             <% } %>
-                            <td><%= reservation.datedébut %></td>
-                            <td><%= reservation.datefin %></td>
+                            <td><%= reservation.startdate.getDate() +'/'+ (reservation.startdate.getMonth() +1)%> </td>
+                            <td><%= reservation.enddate.getDate() +'/'+ (reservation.enddate.getMonth() +1)%></td>
                             <!-- Ajoutez d'autres cellules pour les autres informations de réservation -->
                         </tr>
                     <% }); %>

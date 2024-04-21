@@ -7,15 +7,15 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-        user: "ziedsaydi@gmail.com", // Adresse e-mail de l'expéditeur
-        pass: "ylaj pnio grek hekb", // Mot de passe de l'expéditeur
+        user: "sakhrifakhreddine1234@gmail.com", // Adresse e-mail de l'expéditeur
+        pass: "fosb mncu twmk loec", // Mot de passe de l'expéditeur
     }
 });
 
 const sendMail = (to, object, content, isHtml) => {
     if (isHtml) {
         transporter.sendMail({
-            from: "ziedseidi27@gmail.com", // Adresse e-mail de l'expéditeur
+            from: "sakhrifakhreddine1234@gmail.com", // Adresse e-mail de l'expéditeur
             to: to, // Adresse e-mail du destinataire
             subject: object, // Objet du courriel
             html: content // Corps du courriel au format HTML
@@ -28,7 +28,7 @@ const sendMail = (to, object, content, isHtml) => {
         });
     } else {
         transporter.sendMail({
-            from: "ziedseidi27@gmail.com", // Adresse e-mail de l'expéditeur
+            from: "sakhrifakhreddine1234@gmail.com", // Adresse e-mail de l'expéditeur
             to: to, // Adresse e-mail du destinataire
             subject: object, // Objet du courriel
             text: content // Corps du courriel au format texte brut

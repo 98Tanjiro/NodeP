@@ -15,7 +15,7 @@ salleController.showAjouterSallePage = async (req, res) => {
         }
         
       
-        console.log(req.cookies.token);
+        
         res.render('ajoutersalle'); 
     } catch (error) {
         console.error('Erreur lors de l\'affichage de la page d\'ajout de salle :', error);
@@ -23,13 +23,14 @@ salleController.showAjouterSallePage = async (req, res) => {
     }
 };
 salleController.addsalle = async (req, res) => {
+    console.log(req.body)
     try {
         const userId = req.userId;
         if (!userId) {
             return res.status(401).send('Authentication failed: invalid token');
         }
 
-        const { name, capacity, location, prix } = req.body;
+        const { name, capacity, location,price } = req.body;
         let image='';
         if (req.file) {
             image = 'http://localhost:3002/uploads/' + req.file.filename;
@@ -39,9 +40,9 @@ salleController.addsalle = async (req, res) => {
             name,
             capacity,
             location,
-            prix,
+            price,
             image, // Stocker le chemin de l'image dans la base de données
-            disponibilité: true
+            state: true
         });
 
         await newSalle.save();
@@ -53,7 +54,7 @@ salleController.addsalle = async (req, res) => {
 };
 salleController.getAllSalles = async (req, res) => {
     try {
-        const salles = await Salle.find({}, 'name capacity location image prix disponibilité'); // Spécifiez les champs que vous voulez récupérer
+        const salles = await Salle.find({}, 'name capacity location image prix state'); // Spécifiez les champs que vous voulez récupérer
         const availableSallesCount = salles.length;
         res.render('listesalle', { salles, availableSallesCount, req });
     } catch (error) {
@@ -84,7 +85,7 @@ salleController.showEditSallePage = async (req, res) => {
         if (!salle) {
             return res.status(404).json({ message: "La salle n'a pas été trouvée." });
         }
-        console.log(req.cookies.token)
+        
         res.render('editSalle', { salle });
     } catch (error) {
         console.error("Erreur lors de l'affichage du formulaire de modification de la salle :", error);
@@ -108,7 +109,7 @@ salleController.editSalle = async (req, res) => {
             salle.image = 'http://localhost:3002/uploads/' + req.file.filename;
         }
         await salle.save();
-        console.log(req.cookies.token)
+       
         res.redirect('/salle/listesalle?success=La%20salle%20a%20été%20modifiée%20avec%20succès.');
     } catch (error) {
         console.error("Erreur lors de la modification de la salle :", error);
@@ -119,8 +120,9 @@ salleController.editSalle = async (req, res) => {
 
 salleDisponibleController.renderSalleDisponible = async (req, res) => {
     try {
-        const salles = await Salle.find(); 
-        console.log(req.cookies.token);
+        const salles = await Salle.find({}); 
+       
+       
         res.render('salledisponible', { salles: salles });
     } catch (error) {
         console.error("Erreur lors du rendu de la page des salles disponibles :", error);

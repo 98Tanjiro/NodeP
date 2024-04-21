@@ -88,17 +88,17 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><%= salle.name %></h5>
-                    <p class="card-text">Capacité: <%= salle.capacity %></p>
-                    <p class="card-text">Emplacement: <%= salle.location %></p>
-                    <p class="card-text">Prix par jour: <%= salle.prix %> Dinars</p>
-                    <p class="card-text">Disponibilité: <%= salle.disponibilité ? 'Disponible' : 'Non disponible' %></p>
+                    <p class="card-text">Capacity: <%= salle.capacity %></p>
+                    <p class="card-text">location: <%= salle.location %></p>
+                    <p class="card-text">price/hour: <%= salle.price %> Dinars</p>
+                    <p class="card-text">state: <%= salle.state ? 'available' : 'Not available' %></p>
                     <% if (salle.image) { %>
                         <!-- Utilisez l'URL de l'image stockée dans la base de données -->
                         <img src="<%= salle.image %>" class="card-img-top" alt="Image de la salle">
                     <% } else { %>
-                        <p>Aucune image disponible</p>
+                        <p>No image available</p>
                     <% } %>
-                    <a href="/reservations/reserve/<%= salle._id %>" class="btn btn-primary btn-reserver">Réserver</a>
+                    <a href="/reservations/reserve/<%= salle._id %>" class="btn btn-primary btn-reserver">Reserve</a>
                 </div>
             </div>
         <% }); %>

@@ -8,8 +8,8 @@ console.log();
     try {
         const tokenData = token.split(' ')[1];
         const decodedToken = jwt.verify(token,process.env.JWT_SECRET);
-        console.log('decoded');
-        console.log(decodedToken);
+        // console.log('decoded');
+        // console.log(decodedToken);
         req.userId=decodedToken.userId;
         next();
     } catch (error) {

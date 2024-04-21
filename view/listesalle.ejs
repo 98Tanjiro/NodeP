@@ -66,7 +66,7 @@
         <a class="navbar-brand" href="#">Reserve meeting room </a>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/dashboard" style="color: #f3efef;">Back</a>
+                <!-- <a class="nav-link" href="/adminDashboard" style="color: #f3efef;">Back</a> -->
             </li>
         </ul>    </nav>
 
@@ -87,10 +87,10 @@
                     <!-- Nom de la salle -->
                     <h5 class="card-title"><%= salle.name %></h5>
                     <!-- Détails de la salle -->
-                    <p class="card-text">Capacité: <%= salle.capacity %></p>
-                    <p class="card-text">Emplacement: <%= salle.location %></p>
-                    <p class="card-text">Prix par jour: <%= salle.prix %> Dinars</p>
-                    <p class="card-text">Disponibilité: <%= salle.disponibilité ? 'Disponible' : 'Non disponible' %></p>
+                    <p class="card-text">Capacity: <%= salle.capacity %></p>
+                    <p class="card-text">location: <%= salle.location %></p>
+                    <p class="card-text">price/hour: <%= salle.price %> Dinars</p>
+                    <p class="card-text">state: <%= salle.state ? 'available' : 'Not available' %></p>
                 </div>
                 <!-- Image de la salle -->
                 <% if (salle.image) { %>

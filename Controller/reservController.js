@@ -10,34 +10,35 @@ reservController.showReservationPage = async (req, res) => {
         const salleId = req.params.salleId;
         const salle = await Salle.findById(salleId);
         if (!salle) {
-            return res.status(404).json({ message: "La salle n'a pas été trouvée." });
+            return res.status(404).json({ message: "Room can't be found " });
         }
         res.render('reservation', { salle: salle, salleId: salleId, successMessage: null, errorMessage: null });
     } catch (error) {
-        console.error("Erreur lors de l'affichage de la page de réservation :", error);
-        res.status(500).send("Une erreur est survenue lors de l'affichage de la page de réservation.");
+        console.error("Error while showing reservation page");
+        res.status(500).send("Error while showing reservation page");
     }
 };
 
 
 reservController.reserveSalle = async (req, res) => {
+    console.log(req.body)
     try {
         const { salleId, dateDebut, dateFin } = req.body;
         if (!dateDebut || !req.userId) {
-            return res.status(400).json({ message: "Veuillez fournir la date de début et l'ID de l'utilisateur." });
+            return res.status(400).json({ message: "Please enter the debut date with client ID" });
         }
 
         const user = await User.findById(req.userId);
         const salle = await Salle.findById(salleId);
         if (!user || !salle) {
-            return res.status(404).json({ message: "Utilisateur ou salle non trouvé." });
+            return res.status(404).json({ message: "User or Room not found" });
         }
 
         const existingReservation = await Reservation.findOne({ 
             salle: salleId, 
             datedébut: { $lte: dateDebut }, 
             datefin: { $gte: dateFin },
-            status: "en cours" 
+            status: "ongoing" 
         });
 
         if (existingReservation) {
@@ -46,33 +47,36 @@ reservController.reserveSalle = async (req, res) => {
                 name: salle.name, 
                 salleId: salleId, 
                 successMessage: null,
-                errorMessage: "Impossible de réserver la salle. Elle est déjà réservée pour cette période." 
+                errorMessage: "Impossible ... Room already reserved for this period " 
             });
         }
 
         const reservation = new Reservation({
-            salle: salle,
-            salle: salleId,
+
+            room: salle,
             user: req.userId,
-            datedébut: dateDebut,
-            datefin: dateFin,
-            status: "en cours" 
+            startdate: dateDebut,
+            enddate: dateFin,
+            status: "ongoing" 
         });
+        console.log(reservation)
         await reservation.save();
+        salle.state = false ;
+        salle.save()
         
-        sendMail(user.email, "Ajout avec succès", "Bienvenue Ms " + user.username + ",\n\nVous avez bien ajouté votre réservation avec succès. Voici les détails de votre réservation :\n\nDate de début : " + dateDebut + "\nDate de fin : " + dateFin + ".\n\n consulte Le prix total de la réservation dans votre compte  ", false);
+        sendMail(user.email, "Added successfully", "Welcome Ms " + user.username + ",\n\nYou have successfully reserved . these are the details :\n\nDebute date : " + dateDebut + "\nEnd date : " + dateFin + ".\n\n Consult the total price in your account ", false);
 
         console.log(req.cookies.token);
-        res.render('reservation', { 
-            salle: salle,
-            name: salle.name, 
-            salleId: salleId, 
-            successMessage: "Réservation effectuée avec succès.", 
-            errorMessage: null 
-        });
+        res.render('clientDashboard', {username:user.username});
+        // {salle: salle,
+        //     name: salle.name, 
+        //     salleId: salleId, 
+        //     successMessage: "Successfully reserved !", 
+        //     errorMessage: null 
+        // });
     } catch (error) {
-        console.error("Erreur lors de la réservation de la salle :", error);
-        res.status(500).json({ message: "Une erreur est survenue lors de la réservation de la salle." });
+        console.error("Error while reserving:");
+        res.status(500).json({ message: "Error while reserving" });
     }
 };
 
@@ -81,27 +85,27 @@ reservController.consultReservations = async (req, res) => {
         const userId = req.userId;
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(404).send("Utilisateur non trouvé.");
+            return res.status(404).send("User not found .");
         }
         const username = user.username;
-        const reservations = await Reservation.find({ user: userId }).populate('salle', 'name prix');
+        const reservations = await Reservation.find({ user: userId }).populate('room', 'name price');
         
         reservations.forEach(reservation => {
-            const startDate = new Date(reservation.datedébut);
-            const endDate = new Date(reservation.datefin);
+            const startDate = new Date(reservation.startdate);
+            const endDate = new Date(reservation.enddate);
             const days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
             
-            if (reservation.salle && reservation.salle.prix) {
-                reservation.totalPrice = reservation.salle.prix * days;
+            if (reservation.room && reservation.room.price) {
+                reservation.totalPrice = reservation.room.price * days;
             } else {
                 reservation.totalPrice = 0;
             }
         });
 
-        res.render('mesReservations', { username, reservations });
+        res.render('MesReservations', { username, reservations });
     } catch (error) {
-        console.error("Erreur lors de la consultation des réservations :", error);
-        res.status(500).send("Une erreur est survenue lors de la consultation des réservations.");
+        console.error("Error while consulting reservations");
+        res.status(500).send("Error while consulting reservations");
     }
 };
 
@@ -114,7 +118,7 @@ reservController.showEditReservationForm = async (req, res) => {
         const reservation = await Reservation.findById(reservationId);
 
         if (!reservation) {
-            return res.status(404).send('Réservation non trouvée.');
+            return res.status(404).send('Reservation non existent');
         }
 
         // Passer les messages d'erreur et de succès à la méthode render
@@ -123,45 +127,46 @@ reservController.showEditReservationForm = async (req, res) => {
 
         res.render('editReservation', { reservation, errorMessage, successMessage });
     } catch (error) {
-        console.error('Erreur lors de l\'affichage du formulaire de modification de réservation :', error);
-        res.status(500).send('Une erreur est survenue lors de l\'affichage du formulaire de modification de réservation.');
+        console.error('Error while showing the modification form');
+        res.status(500).send('Error while showing the modification form');
     }
 };
 reservController.editReservation = async (req, res) => {
     try {
         const reservationId = req.params.reservationId;
-        const { dateDebut, dateFin, salleId } = req.body;
+        const { startdate, enddate, salleId } = req.body;
 
         const existingReservation = await Reservation.findOne({ 
             _id: { $ne: reservationId }, // n5arjou id mta3 reservation exicte 
-            salle: salleId, 
-            datedébut: { $lte: dateDebut }, 
-            datefin: { $gte: dateFin } 
+            room: salleId, 
+            startdate: { $lte: startdate }, 
+            enddate: { $gte: enddate } 
         });
 
         if (existingReservation) {
-            const errorMessage = "Impossible de modifier la réservation. Une autre réservation est déjà planifiée pour cette période.";
+            const errorMessage = "Impossible to modify ... another reservation is scheduled in the mean time!";
             return res.render('editReservation', { errorMessage });
         }
 
         const updatedReservation = await Reservation.findByIdAndUpdate(
             reservationId, 
-            { dateDebut, dateFin }, 
+            { startdate, enddate }, 
             { new: true }
         );
         
         await updatedReservation.save();
-        const updatedSalle = await Salle.findById(updatedReservation.salle);
+       
+        const updatedSalle = await Salle.findById(updatedReservation.room);
 
         const user = await User.findById(req.userId);
-        sendMail(user.email, "Modification de réservation réussie", "Cher " + user.username + ",\n\nVotre réservation a été modifiée avec succès. Voici les nouveaux détails de votre réservation :\n\nNom de la salle : " + updatedSalle.name + "\nEmplacement : " + updatedSalle.location + "\nCapacité : " + updatedSalle.capacity + "\nPrix : " + updatedSalle.prix + "\n\nConsultez les détails mis à jour dans votre compte.", false);
+        sendMail(user.email, "Modified successfully ", "Dear " + user.username + ",\n\nyour reservation have been made successfully . here are the details of your new reservation :\n\nname of room : " + updatedSalle.name + "\nCity : " + updatedSalle.location + "\nnumber of places: " + updatedSalle.capacity + "\nPrice : " + updatedSalle.prix + "\n\nconsult other details in your account", false);
         const reservations = await Reservation.find();
 
-        const successMessage = "La réservation a été modifiée avec succès.";
+        const successMessage = "Successfully modified reservation";
         res.render('editReservation', { reservations, reservation: updatedReservation, successMessage });
     } catch (error) {
-        console.error("Erreur lors de la modification de la réservation :", error);
-        res.status(500).json({ message: "Une erreur est survenue lors de la modification de la réservation." });
+        console.error("Error while modifying reservation");
+        res.status(500).json({ message: "Error while modifying reservation" });
     }
 };
 reservController.deleteReservation = async (req, res) => {
@@ -169,25 +174,25 @@ reservController.deleteReservation = async (req, res) => {
         const reservationId = req.params.reservationId;
         await Reservation.findByIdAndDelete(reservationId);
         const user = await User.findById(req.userId);
-        sendMail(user.email, "Suppression de réservation réussie", "Cher " + user.username + 
-        ",\n\nVotre réservation a été supprimée avec succès.\n\nConsultez votre compte pour plus de détails.", false)
+        sendMail(user.email, "deleted successfully", "dear " + user.username + 
+        ",\n\nyou have successfully deleted your reservation .\n\nConsult your account for more details .", false)
         res.redirect('/reservations/MesReservations');
         } catch (error) {
-        console.error("Erreur lors de la suppression de la réservation :", error);
-        res.status(500).json({ message: "Une erreur est survenue lors de la suppression de la réservation." });
+        console.error("Error while deleting reservation :");
+        res.status(500).json({ message: "Error while deleting reservation ." });
     }
 };
 
 reservController.listeReservationsEnCours = async (req, res) => {
     try {
-        const reservationsEnCours = await Reservation.find({ status: "en cours" })
+        const reservationsEnCours = await Reservation.find({ status: "ongoing" })
             .populate('user', 'username') 
-            .populate('salle', 'name'); 
+            .populate('room', 'name'); 
 
         res.render('reservationencours', { reservationsEnCours });
     } catch (error) {
-        console.error("Erreur lors de la récupération des réservations en cours :", error);
-        res.status(500).json({ message: "Une erreur est survenue lors de la récupération des réservations en cours." });
+        console.error("Error while recupurating");
+        res.status(500).json({ message: "Error while recupurating." });
     }
 };
 
