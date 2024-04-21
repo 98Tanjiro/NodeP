@@ -67,13 +67,7 @@ reservController.reserveSalle = async (req, res) => {
         sendMail(user.email, "Added successfully", "Welcome Ms " + user.username + ",\n\nYou have successfully reserved . these are the details :\n\nDebute date : " + dateDebut + "\nEnd date : " + dateFin + ".\n\n Consult the total price in your account ", false);
 
         console.log(req.cookies.token);
-        res.render('clientDashboard', {username:user.username});
-        // {salle: salle,
-        //     name: salle.name, 
-        //     salleId: salleId, 
-        //     successMessage: "Successfully reserved !", 
-        //     errorMessage: null 
-        // });
+        res.render('clientDashboard', {username:user.username,successMessage: "Successfully reserved !"});
     } catch (error) {
         console.error("Error while reserving:");
         res.status(500).json({ message: "Error while reserving" });

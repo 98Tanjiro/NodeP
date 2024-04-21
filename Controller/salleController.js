@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Salle=require('../models/salle')
 const User = require('../models/user');
-const Role = require('../models/role');
 const uploadImage= require('../midelware/multer')
 
 const salleController={};
@@ -18,8 +17,8 @@ salleController.showAjouterSallePage = async (req, res) => {
         
         res.render('ajoutersalle'); 
     } catch (error) {
-        console.error('Erreur lors de l\'affichage de la page d\'ajout de salle :', error);
-        res.status(500).send('Une erreur est survenue lors du chargement de la page.');
+        console.error('Error while adding room :');
+        res.status(500).send('Error while adding room :');
     }
 };
 salleController.addsalle = async (req, res) => {
@@ -48,18 +47,18 @@ salleController.addsalle = async (req, res) => {
         await newSalle.save();
         res.redirect('/salle/listesalle');
     } catch (error) {
-        console.error("Erreur lors de l'enregistrement de la salle :", error);
-        res.status(500).send("Une erreur est survenue lors de l'enregistrement de la salle.");
+        console.error("Error while saving room:");
+        res.status(500).send("Error while saving room:");
     }
 };
 salleController.getAllSalles = async (req, res) => {
     try {
-        const salles = await Salle.find({}, 'name capacity location image prix state'); // Spécifiez les champs que vous voulez récupérer
+        const salles = await Salle.find({}, 'name capacity location image price state'); 
         const availableSallesCount = salles.length;
         res.render('listesalle', { salles, availableSallesCount, req });
     } catch (error) {
-        console.error("Erreur lors de la récupération des salles :", error);
-        res.status(500).send("Une erreur est survenue lors de la récupération des salles.");
+        console.error("Error while getting rooms !");
+        res.status(500).send("Error while getting rooms !");
     }
 };
 
@@ -69,13 +68,13 @@ salleController.deleteSalle = async (req, res) => {
     try {
         const salle = await Salle.findById(salleId);
         if (!salle) {
-            return res.status(404).json({ message: "La salle n'a pas été trouvée." });
+            return res.status(404).json({ message: "Room is not found ." });
         }
         await Salle.deleteOne({ _id: salleId });
         res.redirect('/salle/listesalle?success=La%20salle%20a%20été%20supprimée%20avec%20succès.');
     } catch (error) {
-        console.error("Erreur lors de la suppression de la salle :", error);
-        res.status(500).json({ message: "Une erreur est survenue lors de la suppression de la salle." });
+        console.error("Error while deleting room ! ");
+        res.status(500).json({ message: "Error while deleting room ! " });
     }
 };
 salleController.showEditSallePage = async (req, res) => {
@@ -83,13 +82,13 @@ salleController.showEditSallePage = async (req, res) => {
         const salleId = req.params.id;
         const salle = await Salle.findById(salleId);
         if (!salle) {
-            return res.status(404).json({ message: "La salle n'a pas été trouvée." });
+            return res.status(404).json({ message: "Room not found ! " });
         }
         
         res.render('editSalle', { salle });
     } catch (error) {
-        console.error("Erreur lors de l'affichage du formulaire de modification de la salle :", error);
-        res.status(500).json({ message: "Une erreur est survenue lors de l'affichage du formulaire de modification de la salle." });
+        console.error("Error while modifying room ! ");
+        res.status(500).json({ message: "Error while modifying room ! " });
     }
 };
 
@@ -98,12 +97,13 @@ salleController.editSalle = async (req, res) => {
     try {
         const salle = await Salle.findById(salleId);
         if (!salle) {
-            return res.status(404).json({ message: "La salle n'a pas été trouvée." });
+            return res.status(404).json({ message: "Room not found " });
         }
         salle.name = req.body.name;
         salle.location = req.body.location;
         salle.capacity = req.body.capacity;
         salle.prix= req.body.prix;
+        salle.state = req.body.state;
        
         if (req.file) {
             salle.image = 'http://localhost:3002/uploads/' + req.file.filename;
@@ -112,8 +112,8 @@ salleController.editSalle = async (req, res) => {
        
         res.redirect('/salle/listesalle?success=La%20salle%20a%20été%20modifiée%20avec%20succès.');
     } catch (error) {
-        console.error("Erreur lors de la modification de la salle :", error);
-        res.status(500).json({ message: "Une erreur est survenue lors de la modification de la salle." });
+        console.error("Error while modifying room !");
+        res.status(500).json({ message: "Error while modifying room !" });
     }
 };
 
@@ -125,8 +125,8 @@ salleDisponibleController.renderSalleDisponible = async (req, res) => {
        
         res.render('salledisponible', { salles: salles });
     } catch (error) {
-        console.error("Erreur lors du rendu de la page des salles disponibles :", error);
-        res.status(500).send("Une erreur est survenue lors du rendu de la page des salles disponibles.");
+        console.error("Error while looking for available rooms :");
+        res.status(500).send("Error while looking for available rooms :");
     }
 };
 

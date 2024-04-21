@@ -11,6 +11,7 @@ console.log();
         // console.log('decoded');
         // console.log(decodedToken);
         req.userId=decodedToken.userId;
+        // req.user = decodedToken
         next();
     } catch (error) {
         console.log('Error server');

@@ -5,31 +5,13 @@ const router = require('./Routes/userRouter');
 const routersalle = require('./Routes/salleRouter');
 const routerreserv = require('./Routes/reservRouter');
 const uploadImage = require('./midelware/multer');
-// const authenticateToken = require('./midelware/authentication') 
+const authenticateToken = require('./midelware/authentication') 
 
 const cookieParser = require('cookie-parser');
-const Role = require('./models/role');
 require('dotenv').config();
 const methodOverride = require('method-override');
+const User = require('./models/user');
 
-// const initializeRoles = async () => {
-//     try {
-//         const existingRoles = await Role.find();
-//         if (existingRoles.length === 0) {
-//             await Role.create([
-//                 { name: 'admin', description: 'Administrateur' },
-//                 { name: 'client', description: 'Client' },
-//             ]);
-//             console.log('Les rôles ont été initialisés avec succès.');
-//         } else {
-//             console.log('Des rôles existent déjà dans la base de données.');
-//         }
-//     } catch (error) {
-//         console.error('Erreur lors de l\'initialisation des rôles :', error);
-//     }
-// };
-
-// initializeRoles();
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -64,9 +46,16 @@ app.get('/',(req,res)=>{
     res.render('welcome');
 })
 
-// app.get('/adminDashboard',authenticateToken,(req,res )=>{
-//     res.render('adminDashboard',{ username: req.user.username });
-// })
+
+app.get('/dashboard',authenticateToken, async(req,res )=>{
+    console.log(req.userId)
+    const user = await User.findById(req.userId)
+    const isAdmin = user.role === 'admin';
+    if (isAdmin){
+    res.render('adminDashboard' , { username: user.username });
+    }
+    else {res.render( 'clientDashboard', { username: user.username });}
+})
 
 app.listen(port, () => {
     console.log(`Serveur démarré sur le port ${port}`);

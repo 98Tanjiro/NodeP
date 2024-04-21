@@ -9,27 +9,38 @@
     <!-- Styles CSS personnalisés -->
     <style>
        body {
-            background-image: url('/IMG_4185-1024x683.jpg');
+            background-image: url('/pngtree-an-empty-conference-room-with-a-large-table-and-dark-curtains-picture-image_2457521.jpg');
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
         }
         
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255,255,255,0.5);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(48, 45, 45, 0.1);
+        }
+        
         .navbar {
-            background-color: #000000 !important;
+            background-color: rgba(255,255,255,0.5);
         }
         
         .navbar-brand {
-            color: #fff !important;
+            color: #842204 !important;
             font-weight: bold;
         }
         
         .navbar-nav .nav-link {
-            color: #fff !important;
+            color: #842204 !important;
         }
 
         .btn-custom {
-            background-color: #21282f;
-            border-color: #0b0e11;
+            background-color: #842204;
+            border-color: #842204;
             border-radius: 20px;
             padding: 10px 20px;
             margin-bottom: 10px;
@@ -38,29 +49,24 @@
             color: #c2b8b8;
             text-decoration: none;
         }
+        .text-center{
+            color : #842204;
+        }
 
         .btn-custom:hover {
-            background-color: #be5e15;
-            border-color: #0056b3;
+            background-color: #ad2800;
+            border-color: #702b06;
             text-decoration: none;
         }
 
-        /* Footer */
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #000000;
-            color: #ffffff;
-            text-align: center;
-            padding: 10px 0;
-        }
+    
     </style>
 </head>
 <body>
     <!-- Barre de navigation -->
-    
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">Meeting Room</a>
+    </nav>
 
     <div class="container mt-4">
         <h1 style="text-align: center;">Welcome to our website</h1>
@@ -68,10 +74,10 @@
         <!-- Liens de consultation -->
         <div class="row">
             <div class="col-md-6">
-                <a href="/users/login" class="btn btn-secondary btn-block mb-3">Click here to Login</a>
+                <a href="/users/login" class="btn btn-primary btn-custom">Click here to Login</a>
             </div>
             <div class="col-md-6">
-                <a href="/users/register" class="btn btn-secondary btn-block mb-3">Click here to Register</a>
+                <a href="/users/register" class="btn btn-primary btn-custom">Click here to Register</a>
             </div>
         </div>
     </div>

@@ -8,7 +8,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Styles CSS personnalisés -->
     <style>
-        body {
+         body {
             background-image: url('/pngtree-an-empty-conference-room-with-a-large-table-and-dark-curtains-picture-image_2457521.jpg');
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
@@ -16,47 +16,59 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
+            margin-top: 40px;
+            background-color:  rgba(255,255,255,0.5);
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(48, 45, 45, 0.1);
         }
         h1 {
             text-align: center;
             margin-bottom: 30px;
+            color: #842204;
+            animation: colorChange 5s infinite alternate;
+        }
+        
+        .navbar {
+            background-color:  rgba(255,255,255,0.5);
+            height: 40px; /* Réduire la hauteur de la navbar */
+        }
+        .navbar-brand {
+            color: #842204 !important;
+            font-weight: bold;
+        }
+        .navbar-nav .nav-link {
+            color: #842204 !important;
         }
         .form-group {
             margin-bottom: 20px;
         }
         .btn-primary {
             width: 100%;
+            background-color: #842204;
+            border-color: #e43a06;
+        }
+        .btn-primary:hover {
+            background-color: #e93802;
+            border-color: #842204;
         }
         .alert {
             margin-bottom: 20px;
         }
-        .navbar {
-            background-color: #000000 !important;
-            height: 40px; /* Réduire la hauteur de la navbar */
-            margin-bottom: 20px; /* Ajout de marge en bas pour séparation */
-        }
-        .navbar-brand {
-            color: #fff !important;
-            font-weight: bold;
-        }
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #000000;
-            color: #ffffff;
-            text-align: center;
-            padding: 0px 0;
-        }
+        
     </style>
 </head>
 <body>
     <!-- Barre de navigation -->
     <nav class="navbar navbar-expand-lg">
         <a class="navbar-brand" href="#">Reservation of meeting room</a>
-        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard" style="color: #f8f9fa;">Back</a>
+                </li>
+            </ul> 
+        </div>
     </nav>
 
     <div class="container">
@@ -82,7 +94,6 @@
                 <input type="datetime-local" class="form-control" id="enddate" name="enddate" <% if (reservation && reservation.enddate) { %> value="<%= reservation.enddate.toISOString().slice(0, 16) %>" <% } %> required>
             </div>
             <input type="hidden" class="form-control" id="salleId" name="salleId" value = '<%= reservation.room %>'  required>
-            <!-- Ajoutez d'autres champs pour les autres détails de la réservation à modifier -->
             <button type="submit" class="btn btn-primary">Modify</button>
         </form>
     </div>

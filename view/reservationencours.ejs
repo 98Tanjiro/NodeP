@@ -9,19 +9,33 @@
     <!-- Styles CSS personnalisés -->
     <style>
         body {
-            background-image: url('/IMG_4185-1024x683.jpg');
+            background-image: url('/pngtree-an-empty-conference-room-with-a-large-table-and-dark-curtains-picture-image_2457521.jpg');
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
         }
-
-        .navbar {
-            background-color: #000000 !important;
-            height: 40px; /* Réduire la hauteur de la navbar */
+        
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255,255,255,0.5);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(48, 45, 45, 0.1);
         }
-
+        
+        .navbar {
+            background-color: rgba(255,255,255,0.5);
+        }
+        
         .navbar-brand {
-            color: #fff !important;
+            color: #842204 !important;
             font-weight: bold;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #842204 !important;
         }
 
         h1 {
@@ -31,21 +45,8 @@
             animation: colorChange 5s infinite alternate;
         }
 
-        @keyframes colorChange {
-            0% { color: #007bff; }
-            100% { color: #c41627; }
-        }
-
-        .container {
-            margin-top: 50px;
-            background-color: #1e1616; /* Couleur de fond gris clair */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(32, 31, 31, 0.1);
-        }
-
         .table {
-            background-color: #fff;
+            background-color: rgba(255,255,255,0.5);
         }
 
         th, td {
@@ -53,8 +54,8 @@
         }
 
         .table th {
-            background-color: #000;
-            color: #fff;
+            background-color: rgba(255,255,255,0.5);
+            color: #871618;
         }
 
         .table th,

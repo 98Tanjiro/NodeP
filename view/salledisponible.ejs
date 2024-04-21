@@ -13,15 +13,15 @@
             margin-right: 10px;
         }
         body {
-            background-image: url('/IMG_4185-1024x683.jpg');
-            background-color: #000000;
+            background-image: url('/pngtree-an-empty-conference-room-with-a-large-table-and-dark-curtains-picture-image_2457521.jpg');
+            background-color: #f8f9fa;
             font-family: Arial, sans-serif;
         }
         .container {
             max-width: 900px;
             margin: 0 auto;
             margin-top: 50px;
-            background-color: #222029; 
+            background-color: rgba(255,255,255,0.5); 
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(48, 45, 45, 0.1);
@@ -29,21 +29,18 @@
         h1 {
             text-align: center;
             margin-bottom: 30px;
-            color: #2a323a;
+            color: #842204;
             animation: colorChange 5s infinite alternate;
         }
-        @keyframes colorChange {
-            0% { color: #007bff; }
-            100% { color: #a72837; }
-        }
         .navbar {
-            background-color: #000000 !important;
-            height: 40px; /* Réduire la hauteur de la navbar */
+            background-color: rgba(255,255,255,0.5);
         }
+        
         .navbar-brand {
-            color: #f3efef !important;
+            color: #842204 !important;
             font-weight: bold;
         }
+        
         .card {
             margin-bottom: 20px;
             color: #032642;
@@ -57,31 +54,32 @@
             height: auto;
         }
         .btn-reserver {
-            background-color: #413d2d; /* Couleur de fond du bouton Réserver */
+            background-color: #842204; /* Couleur de fond du bouton Réserver */
         }
     </style>
 </head>
 <body>
     <!-- Barre de navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Reservation Salle de Reunion</a>
-        <!-- Ajoutez ici d'autres éléments de la barre de navigation si nécessaire -->
+    <nav class="navbar navbar-expand-lg ">
+        <a class="navbar-brand" href="#">Reservation for meeting room</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard" style="color: #842204;">Back</a>
+                </li>
+            </ul> 
+        </div>
     </nav>
 
     <!-- Contenu principal -->
     <div class="container mt-4">
-        <h1>Liste des salles disponibles</h1>
+        <h1>List of available rooms</h1>
         <% if (salles && salles.length > 0) { %>
             <% salles.forEach(function(salle) { %>
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= salle.name %></h5>
-                        <!-- Autres détails de la salle -->
-                    </div>
-                </div>
+                
             <% }); %>
         <% } else { %>
-            <p>Aucune salle disponible pour le moment.</p>
+            <p>no available room for the time being</p>
         <% } %>
         
         <% salles.forEach(function(salle) { %>
@@ -98,7 +96,10 @@
                     <% } else { %>
                         <p>No image available</p>
                     <% } %>
-                    <a href="/reservations/reserve/<%= salle._id %>" class="btn btn-primary btn-reserver">Reserve</a>
+                    <% if (salle.state === true) { %>
+                        <a href="/reservations/reserve/<%= salle._id %>" class="btn btn-primary btn-reserver">Reserve</a>  
+                    <% } %>
+                    
                 </div>
             </div>
         <% }); %>

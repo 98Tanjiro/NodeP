@@ -27,7 +27,7 @@ function fileFilter(req, file, cb) {
 const uploadImage = multer({
     storage: storage,
     fileFilter: fileFilter,
-    limits: { fileSize: 1000000 } // Limitez la taille des fichiers téléchargés à 1 Mo (1000000 bytes)
+    limits: { fileSize: 1000000 } // file taille limit
 });
 
 module.exports = uploadImage;
